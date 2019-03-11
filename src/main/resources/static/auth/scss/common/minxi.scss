@@ -1,0 +1,152 @@
+// mixin
+@mixin border-radius($value) {
+    border-radius: $value;
+    -moz-border-radius: $value;
+    -webkit-border-radius: $value;
+    -o-border-radius: $value;
+    -ms-border-radius: $value;
+}
+@mixin background-size($value) {
+	background-size: $value;
+	-moz-background-size: $value;
+	-webkit-background-size: $value;
+	-o-background-size: $value;
+	-ms-background-size: $value;
+}
+@mixin background-gradient-three($color1, $color2, $color3) {
+    background: linear-gradient($color1, $color2, $color3);
+    background: -moz-linear-gradient($color1, $color2, $color3);
+    background: -webkit-linear-gradient($color1, $color2, $color3);
+    background: -o-linear-gradient($color1, $color2, $color3);
+    background: -ms-linear-gradient($color1, $color2, $color3);
+}
+@mixin background-gradient-six($color1, $color2, $color3, $color4, $color5, $color6) {
+    background: linear-gradient($color1, $color2, $color3, $color4, $color5, $color6);
+    background: -moz-linear-gradient($color1, $color2, $color3, $color4, $color5, $color6);
+    background: -webkit-linear-gradient($color1, $color2, $color3, $color4, $color5, $color6);
+    background: -o-linear-gradient($color1, $color2, $color3, $color4, $color5, $color6);
+    background: -ms-linear-gradient($color1, $color2, $color3, $color4, $color5, $color6);
+}
+@mixin transform($value) {
+	transform: $value;
+	-moz-transform: $value;
+	-webkit-transform: $value;
+	-o-transform: $value;
+	-ms-transform: $value;
+}
+@mixin box-shadow($value) {
+	box-shadow: $value;
+	-moz-box-shadow: $value;
+	-webkit-box-shadow: $value;
+	-o-box-shadow: $value;
+	-ms-box-shadow: $value;
+}
+@mixin filter($value) {
+	filter: $value;
+	-moz-filter: $value;
+	-webkit-filter: $value;
+	-o-filter: $value;
+	-ms-filter: $value;
+}
+@mixin transition($value) {
+	transition: $value;
+	-moz-transition: $value;
+	-webkit-transition: $value;
+	-o-transition: $value;
+	-ms-transition: $value;
+}
+@mixin animation($value) {
+	animation: $value;
+	-moz-animation: $value;
+	-webkit-animation: $value;
+	-o-animation: $value;
+	-ms-animation: $value;
+}
+@mixin transform-origin($value) {
+	transform-origin: $value;
+	-moz-transform-origin: $value;
+	-webkit-transform-origin: $value;
+	-o-transform-origin: $value;
+	-ms-transform-origin: $value;
+}
+@mixin appearance($value) {
+	appearance: $value !important;
+	-moz-appearance: $value !important;
+	-webkit-appearance: $value !important;
+	-o-appearance: $value !important;
+	-ms-appearance: $value !important;
+}
+@mixin box-shadow-input($value) {
+	box-shadow: $value !important;
+	-moz-box-shadow: $value !important;
+	-webkit-box-shadow: $value !important;
+	-o-box-shadow: $value !important;
+	-ms-box-shadow: $value !important;
+}
+
+//flex
+@mixin flex-wrap($value) {
+	flex-wrap: $value;
+	-moz-flex-wrap: $value;
+	-webkit-flex-wrap: $value;
+	-o-flex-wrap: $value;
+	-ms-flex-wrap: $value;
+}
+@mixin flex-direction($value) {
+	flex-direction: $value;
+	-moz-flex-direction: $value;
+	-webkit-flex-direction: $value;
+	-o-flex-direction: $value;
+	-ms-flex-direction: $value;
+}
+@mixin flex-flow($value) {
+	flex-flow: $value;
+	-moz-flex-flow: $value;
+	-webkit-flex-flow: $value;
+	-o-flex-flow: $value;
+	-ms-flex-flow: $value;
+}
+@mixin justify-content($value) {
+	justify-content: $value;
+	-moz-justify-content: $value;
+	-webkit-justify-content: $value;
+	-o-justify-content: $value;
+	-ms-justify-content: $value;
+}
+@mixin align-items($value) {
+	align-items: $value;
+	-moz-align-items: $value;
+	-webkit-align-items: $value;
+	-o-align-items: $value;
+	-ms-align-items: $value;
+}
+@mixin order($value) {
+	order: $value;
+	-moz-order: $value;
+	-webkit-order: $value;
+	-o-order: $value;
+	-ms-order: $value;
+}
+@mixin flex($value) {
+	flex: $value;
+	-moz-flex: $value;
+	-webkit-flex: $value;
+	-o-flex: $value;
+	-ms-flex: $value;
+}
+
+
+@mixin input-placeholder($value) {
+	&::-webkit-input-placeholder {
+		color: $value;
+	}
+	&::-moz-placeholder {
+		color: $value;
+	}
+	&:-ms-input-placeholder {
+		color: $value;
+	}
+	&:-moz-placeholder {
+		color: $value;
+	}
+}

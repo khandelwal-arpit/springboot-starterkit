@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+
+<div class="container-fluid" layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor m-b-0 m-t-0">Agency Details</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Agency</li>
+            </ol>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-4 col-xlg-3 col-md-5">
+            <div class="card">
+                <div class="card-block">
+                    <center class="m-t-30"><img src="../dashboard/assets/images/users/5.jpg" class="img-circle"
+                                                width="150"/>
+                        <h4 class="card-title m-t-10" th:inline="text">[[${agency.name}]]</h4>
+                        <h6 class="card-subtitle" th:inline="text">[[${agency.code}]]</h6>
+                        <div class="row text-center justify-content-md-center">
+                            <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i>
+                                <font class="font-medium">254</font></a></div>
+                            <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i>
+                                <font class="font-medium">54</font></a></div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-8 col-xlg-9 col-md-7">
+            <div class="card">
+                <div class="card-block">
+                    <form method="POST" class="form-horizontal form-material" th:action="@{/agency}">
+                        <div class="form-group">
+                            <label for="agencyName" class="col-md-12">Agency Name</label>
+                            <div class="col-md-12">
+                                <input type="text" th:value="${{agency.name}}" class="form-control form-control-line"
+                                       name="agencyName" id="agencyName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="agencyDetails" class="col-md-12">Agency Detail</label>
+                            <div class="col-md-12">
+                                <input type="text" th:value="${{agency.details}}" class="form-control form-control-line"
+                                       name="agencyDetails" id="agencyDetails">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- Row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+</div>
+</body>
+
+</html>

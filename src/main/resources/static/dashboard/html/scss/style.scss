@@ -1,0 +1,38 @@
+/*
+Template Name: Material Pro Admin
+Author: Themedesigner
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+
+
+/**
+ * Table Of Content
+ *
+ * 	1. Globals
+ *	2. Headers
+ *	3. Navigations
+ *	4. Banners
+ *	5. Footers
+ *	6. app
+ *	7. Widgets
+ *	8. Custom Templates
+ */
+
+@import 'variable';
+@import 'app';
+@import 'pages';
+@import 'sidebar';
+@import '../scss/icons/font-awesome/css/font-awesome.min.css';
+@import '../scss/icons/simple-line-icons/css/simple-line-icons.css';
+@import '../scss/icons/weather-icons/css/weather-icons.min.css';
+@import '../scss/icons/linea-icons/linea.css';
+@import '../scss/icons/themify-icons/themify-icons.css';
+@import '../scss/icons/flag-icon-css/flag-icon.min.css';
+@import "../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css";
+@import 'widgets';
+@import 'grid';
+@import 'responsive';
+@import 'material';
+@import '../css/spinners.css';
+@import '../css/animate.css';

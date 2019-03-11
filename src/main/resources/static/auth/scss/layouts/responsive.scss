@@ -1,0 +1,101 @@
+@media screen and (max-width: 1600px) {
+
+}
+
+@media screen and (max-width: 1300px) {
+
+}
+
+//end 1200px
+@media screen and (max-width: 1200px) {
+    .container {
+        width: calc( 100% - 30px);
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+//end 1200px
+@media screen and (max-width: 1024px) {
+}
+
+//end 1024px
+@media screen and (max-width: 992px) {
+    
+}
+
+//end 992px
+@media screen and (max-width: 768px) {
+
+    .signup-content, .signin-content {
+        @include flex-direction(column);
+        @include justify-content(center);
+    }
+    .signup-form {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        /* box-sizing: border-box; */
+        padding: 0 30px;
+    }
+    .signin-image {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 50px;
+        @include order(2);
+    }
+    .signup-form, .signup-image, .signin-form, .signin-image {
+        width: auto;
+    }
+
+    .social-login {
+        @include justify-content(center);
+    }
+    .form-button {
+        text-align: center;
+    }
+    .signin-form {
+        @include order(1);
+        margin-right: 0px;
+        margin-left: 0px;
+        padding: 0 30px;
+    }
+    .form-title {
+        text-align: center;
+    }
+
+}
+
+@media screen and (max-width: 620px)  {
+
+}
+
+//end 767px
+@media screen and (max-width: 575px) {
+
+}
+
+//end 575px
+@media screen and (max-width: 480px) {
+
+}
+
+//end 480px
+@media screen and (max-width: 400px) {
+    .social-login {
+        @include flex-direction(column);
+    }
+    .social-label {
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+}
+
+//end 400px
+
+@media screen and (max-width: 320px) {}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header">
+    <title>Header</title>
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+<!-- ============================================================== -->
+<!-- Preloader - style you can find in spinners.css -->
+<!-- ============================================================== -->
+<div class="preloader">
+    <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+    </svg>
+</div>
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper">
+    <!-- Topbar header - style you can find in pages.scss -->
+    <div th:replace="fragments/navigation :: navigation"></div>
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <!-- Page wrapper  -->
+    <div class="page-wrapper" id="mainContent">
+        <div layout:fragment="content"></div>
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+</body>
+
+</html>
