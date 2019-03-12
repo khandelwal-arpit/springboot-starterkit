@@ -185,6 +185,7 @@ h2 {
   font-family: Poppins;
   font-size: 36px; }
 
+
 .main {
   background: #f8f8f8; }
 
@@ -266,6 +267,9 @@ body {
 
 .signup-image {
   margin-top: 45px; }
+
+.text-danger {
+  color: #fc4b6c !important; }
 
 figure {
   margin-bottom: 50px;
@@ -399,7 +403,7 @@ input[type=checkbox]:not(old):checked + label > span:before {
 label {
   position: absolute;
   left: 0;
-  top: 50%;
+  top: 15px;
   transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);

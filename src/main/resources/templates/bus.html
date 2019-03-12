@@ -47,9 +47,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="bus : ${agency.buses}">
+                            <th:block th:each="bus,iterationStatus : ${agency.buses}">
                                 <tr>
-                                    <td>1</td>
+                                    <td th:text=${iterationStatus.count}></td>
                                     <td th:text=${bus.code}></td>
                                     <td th:text=${bus.capacity}></td>
                                 </tr>
@@ -65,24 +65,27 @@
                 <div class="card-block">
                     <h3 class="card-title">Add New Bus</h3>
                     <h6 class="card-subtitle">Enter details</h6>
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/bus}">
+                    <form method="POST" class="form-horizontal form-material" th:action="@{/bus}" th:object="${busFormData}">
                         <div class="form-group">
                             <label for="code" class="col-md-12">Bus Code</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control form-control-line" name="code" id="code">
+                                <input type="text" th:field="*{code}" class="form-control form-control-line" name="code" id="code">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></small>
                         </div>
                         <div class="form-group">
                             <label for="capacity" class="col-md-12">Capacity</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control form-control-line" name="capacity" id="capacity">
+                                <input type="text" th:field="*{capacity}" class="form-control form-control-line" name="capacity" id="capacity">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></small>
                         </div>
                         <div class="form-group">
                             <label for="make" class="col-md-12">Make/Model</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control form-control-line" name="make" id="make">
+                                <input type="text" th:field="*{make}" class="form-control form-control-line" name="make" id="make">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></small>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">

@@ -434,6 +434,10 @@ Text Colors
 .text-danger {
   color: #fc4b6c !important; }
 
+.text-danger-padded {
+  color: #fc4b6c !important;
+  padding-left: 15px;}
+
 .text-muted {
   color: #99abb4 !important; }
 

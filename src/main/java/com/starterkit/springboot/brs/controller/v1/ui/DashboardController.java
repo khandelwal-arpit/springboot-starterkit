@@ -1,8 +1,6 @@
 package com.starterkit.springboot.brs.controller.v1.ui;
 
-import com.starterkit.springboot.brs.controller.v1.request.AddTripRequest;
-import com.starterkit.springboot.brs.controller.v1.request.CreateBusRequest;
-import com.starterkit.springboot.brs.controller.v1.request.UpdateProfileRequest;
+import com.starterkit.springboot.brs.controller.v1.command.*;
 import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.bus.BusDto;
 import com.starterkit.springboot.brs.dto.model.bus.StopDto;
@@ -15,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -36,7 +34,7 @@ public class DashboardController {
     @Autowired
     private BusReservationService busReservationService;
 
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    @GetMapping(value = "/dashboard")
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("/dashboard");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -46,65 +44,76 @@ public class DashboardController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/agency", method = RequestMethod.GET)
+    @GetMapping(value = "/agency")
     public ModelAndView agencyDetails() {
         ModelAndView modelAndView = new ModelAndView("/agency");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
+        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
+                .setAgencyName(agencyDto.getName())
+                .setAgencyDetails(agencyDto.getDetails());
+        modelAndView.addObject("agencyFormData", agencyFormCommand);
         modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("user", userDto);
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/agency", method = RequestMethod.POST)
-    public ModelAndView updateAgency(@RequestParam("agencyName") String agencyName, @RequestParam("agencyDetails") String agencyDetails) {
+    @PostMapping(value = "/agency")
+    public ModelAndView updateAgency(@Valid @ModelAttribute("agencyFormData") AgencyFormCommand agencyFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/agency");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
-        if (agencyDto != null) {
-            agencyDto.setName(agencyName)
-                    .setDetails(agencyDetails);
-            busReservationService.updateAgency(agencyDto, null);
-            modelAndView.addObject("agency", agencyDto);
-            modelAndView.addObject("user", userDto);
-            modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("userName", userDto.getFullName());
+        if (!bindingResult.hasErrors()) {
+            if (agencyDto != null) {
+                agencyDto.setName(agencyFormCommand.getAgencyName())
+                        .setDetails(agencyFormCommand.getAgencyDetails());
+                busReservationService.updateAgency(agencyDto, null);
+            }
         }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/bus", method = RequestMethod.GET)
+    @GetMapping(value = "/bus")
     public ModelAndView busDetails() {
         ModelAndView modelAndView = new ModelAndView("/bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
         modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("user", userDto);
+        modelAndView.addObject("busFormData", new BusFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/bus", method = RequestMethod.POST)
-    public ModelAndView addNewBus(@Valid CreateBusRequest createBusRequest, BindingResult bindingResult) {
+    @PostMapping(value = "/bus")
+    public ModelAndView addNewBus(@Valid @ModelAttribute("busFormData") BusFormCommand busFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
-        BusDto busDto = new BusDto()
-                .setCode(createBusRequest.getCode())
-                .setCapacity(createBusRequest.getCapacity())
-                .setMake(createBusRequest.getMake());
-        AgencyDto updatedAgencyDto = busReservationService.updateAgency(agencyDto, busDto);
-        modelAndView.addObject("agency", updatedAgencyDto);
-        modelAndView.addObject("user", userDto);
         modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("agency", agencyDto);
+        if (!bindingResult.hasErrors()) {
+            try {
+                BusDto busDto = new BusDto()
+                        .setCode(busFormCommand.getCode())
+                        .setCapacity(busFormCommand.getCapacity())
+                        .setMake(busFormCommand.getMake());
+                AgencyDto updatedAgencyDto = busReservationService.updateAgency(agencyDto, busDto);
+                modelAndView.addObject("agency", updatedAgencyDto);
+                modelAndView.addObject("busFormData", new BusFormCommand());
+            } catch (Exception ex) {
+                bindingResult.rejectValue("code", "error.busFormCommand", ex.getMessage());
+            }
+        }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/trip", method = RequestMethod.GET)
+    @GetMapping(value = "/trip")
     public ModelAndView tripDetails() {
         ModelAndView modelAndView = new ModelAndView("/trip");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -113,68 +122,103 @@ public class DashboardController {
         Set<StopDto> stops = busReservationService.getAllStops();
         List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
         modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("user", userDto);
         modelAndView.addObject("stops", stops);
         modelAndView.addObject("trips", trips);
+        modelAndView.addObject("tripFormData", new TripFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/trip", method = RequestMethod.POST)
-    public ModelAndView addNewTrip(@Valid AddTripRequest addTripRequest) {
+    @PostMapping(value = "/trip")
+    public ModelAndView addNewTrip(@Valid @ModelAttribute("tripFormData") TripFormCommand tripFormCommand, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("/trip");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
-        TripDto tripDto = new TripDto()
-                .setSourceStopCode(addTripRequest.getSourceStop())
-                .setDestinationStopCode(addTripRequest.getDestinationStop())
-                .setBusCode(addTripRequest.getBusCode())
-                .setJourneyTime(addTripRequest.getTripDuration())
-                .setFare(addTripRequest.getTripFare())
-                .setAgencyCode(agencyDto.getCode());
-        busReservationService.addTrip(tripDto);
-
         Set<StopDto> stops = busReservationService.getAllStops();
         List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
-        ModelAndView modelAndView = new ModelAndView("/trip");
-        modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("user", userDto);
+
         modelAndView.addObject("stops", stops);
-        modelAndView.addObject("trips", trips);
+        modelAndView.addObject("agency", agencyDto);
         modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("trips", trips);
+
+        if(!bindingResult.hasErrors()) {
+            try {
+                TripDto tripDto = new TripDto()
+                        .setSourceStopCode(tripFormCommand.getSourceStop())
+                        .setDestinationStopCode(tripFormCommand.getDestinationStop())
+                        .setBusCode(tripFormCommand.getBusCode())
+                        .setJourneyTime(tripFormCommand.getTripDuration())
+                        .setFare(tripFormCommand.getTripFare())
+                        .setAgencyCode(agencyDto.getCode());
+                busReservationService.addTrip(tripDto);
+
+                trips = busReservationService.getAgencyTrips(agencyDto.getCode());
+                modelAndView.addObject("trips", trips);
+                modelAndView.addObject("tripFormData", new TripFormCommand());
+            }catch (Exception ex){
+                bindingResult.rejectValue("sourceStop", "error.tripFormData", ex.getMessage());
+            }
+        }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @GetMapping(value = "/profile")
     public ModelAndView getUserProfile() {
         ModelAndView modelAndView = new ModelAndView("/profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("currentUser", userDto);
+        ProfileFormCommand profileFormCommand = new ProfileFormCommand()
+                .setFirstName(userDto.getFirstName())
+                .setLastName(userDto.getLastName())
+                .setMobileNumber(userDto.getMobileNumber());
+        PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
+                .setEmail(userDto.getEmail())
+                .setPassword(userDto.getPassword());
+        modelAndView.addObject("profileForm", profileFormCommand);
+        modelAndView.addObject("passwordForm", passwordFormCommand);
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.POST)
-    public ModelAndView updateProfile(@Valid UpdateProfileRequest updateProfileRequest) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        userDto.setFirstName(updateProfileRequest.getFirstName())
-                .setLastName(updateProfileRequest.getLastName())
-                .setMobileNumber(updateProfileRequest.getMobileNumber());
-
+    @PostMapping(value = "/profile")
+    public ModelAndView updateProfile(@Valid @ModelAttribute("profileForm") ProfileFormCommand profileFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/profile");
-        modelAndView.addObject("currentUser", userService.updateProfile(userDto));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
+                .setEmail(userDto.getEmail())
+                .setPassword(userDto.getPassword());
+        modelAndView.addObject("passwordForm", passwordFormCommand);
         modelAndView.addObject("userName", userDto.getFullName());
+        if (!bindingResult.hasErrors()) {
+            userDto.setFirstName(profileFormCommand.getFirstName())
+                    .setLastName(profileFormCommand.getLastName())
+                    .setMobileNumber(profileFormCommand.getMobileNumber());
+            userService.updateProfile(userDto);
+            modelAndView.addObject("userName", userDto.getFullName());
+        }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/password", method = RequestMethod.POST)
-    public ModelAndView changePassword(@RequestParam("password") String newPassword) {
+    @PostMapping(value = "/password")
+    public ModelAndView changePassword(@Valid @ModelAttribute("passwordForm") PasswordFormCommand passwordFormCommand, BindingResult bindingResult) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        userService.changePassword(userDto, newPassword);
-        return new ModelAndView("/login");
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("/profile");
+            ProfileFormCommand profileFormCommand = new ProfileFormCommand()
+                    .setFirstName(userDto.getFirstName())
+                    .setLastName(userDto.getLastName())
+                    .setMobileNumber(userDto.getMobileNumber());
+            modelAndView.addObject("profileForm", profileFormCommand);
+            modelAndView.addObject("userName", userDto.getFullName());
+            return modelAndView;
+        } else {
+            userService.changePassword(userDto, passwordFormCommand.getPassword());
+            return new ModelAndView("/login");
+        }
     }
 
 }

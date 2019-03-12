@@ -151,7 +151,7 @@ public class BusReservationServiceImpl implements BusReservationService {
                     agency.getBuses().add(busModel);
                     return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
                 }
-                throw exceptionWithId(BUS, DUPLICATE_ENTITY, "2", agencyDto.getCode(), busDto.getCode());
+                throw exceptionWithId(BUS, DUPLICATE_ENTITY, "2", busDto.getCode(), agencyDto.getCode());
             } else {
                 //update agency details case
                 agency.setName(agencyDto.getName())

@@ -32,8 +32,7 @@
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-block">
-                    <center class="m-t-30"><img src="../dashboard/assets/images/users/5.jpg" class="img-circle"
-                                                width="150"/>
+                    <center class="m-t-30"><img src="/dashboard/assets/images/users/5.jpg" class="img-circle" width="150"/>
                         <h4 class="card-title m-t-10" th:inline="text">[[${agency.name}]]</h4>
                         <h6 class="card-subtitle" th:inline="text">[[${agency.code}]]</h6>
                         <div class="row text-center justify-content-md-center">
@@ -51,36 +50,38 @@
         <div class="col-lg-8 col-xlg-9 col-md-7">
             <div class="card">
                 <div class="card-block">
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/agency}">
-                        <div class="form-group">
-                            <label for="agencyName" class="col-md-12">Agency Name</label>
-                            <div class="col-md-12">
-                                <input type="text" th:value="${{agency.name}}" class="form-control form-control-line"
-                                       name="agencyName" id="agencyName">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="agencyDetails" class="col-md-12">Agency Detail</label>
-                            <div class="col-md-12">
-                                <input type="text" th:value="${{agency.details}}" class="form-control form-control-line"
-                                       name="agencyDetails" id="agencyDetails">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <button class="btn btn-success">Update</button>
-                            </div>
-                        </div>
-                    </form>
+                    <form action="#" method="POST" class="form-horizontal form-material" th:action="@{/agency}" th:object="${agencyFormData}">
+                    <div class=" form-group">
+                    <label for="agencyName" class="col-md-12">Agency Name</label>
+                    <div class="col-md-12">
+                        <input type="text" th:field="*{agencyName}" class="form-control form-control-line"
+                               name="agencyName" id="agencyName">
+                    </div>
+                    <small class="text-danger-padded" th:if="${#fields.hasErrors('agencyName')}" th:errors="*{agencyName}"></small>
                 </div>
+                <div class="form-group">
+                    <label for="agencyDetails" class="col-md-12">Agency Detail</label>
+                    <div class="col-md-12">
+                        <input type="text" th:field="*{agencyDetails}" class="form-control form-control-line"
+                               name="agencyDetails" id="agencyDetails">
+                    </div>
+                    <small class="text-danger-padded" th:if="${#fields.hasErrors('agencyDetails')}" th:errors="*{agencyDetails}"></small>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success">Update</button>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
-        <!-- Column -->
     </div>
-    <!-- Row -->
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
+    <!-- Column -->
+</div>
+<!-- Row -->
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
 </div>
 </body>
 

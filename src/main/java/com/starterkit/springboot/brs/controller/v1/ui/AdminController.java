@@ -1,18 +1,16 @@
 package com.starterkit.springboot.brs.controller.v1.ui;
 
 
-import com.starterkit.springboot.brs.controller.v1.request.AdminSignupRequest;
+import com.starterkit.springboot.brs.controller.v1.command.AdminSignupFormCommand;
 import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
-import com.starterkit.springboot.brs.model.user.User;
 import com.starterkit.springboot.brs.service.BusReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -30,38 +28,41 @@ public class AdminController {
     @Autowired
     BusReservationService busReservationService;
 
-    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {
         return new ModelAndView("/login");
     }
 
-    @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/logout"})
     public String logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @GetMapping(value = "/home")
     public String home() {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @GetMapping(value = "/signup")
     public ModelAndView signup() {
         ModelAndView modelAndView = new ModelAndView("/signup");
-        User user = new User();
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("adminSignupFormData", new AdminSignupFormCommand());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView createNewAdmin(@Valid AdminSignupRequest userSignupRequest, BindingResult bindingResult) {
-        try {
-            UserDto newUser = registerAdmin(userSignupRequest);
-        } catch (Exception exception) {
-            bindingResult
-                    .rejectValue("email", "error.user",
-                            "There is already a user registered with the email " + userSignupRequest.getEmail() + " provided");
+    @PostMapping(value = "/signup")
+    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData")AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("/signup");
+        if(bindingResult.hasErrors()){
+            return modelAndView;
+        }else {
+            try {
+                UserDto newUser = registerAdmin(adminSignupFormCommand);
+            } catch (Exception exception) {
+                bindingResult.rejectValue("email", "error.adminSignupFormCommand", exception.getMessage());
+                return modelAndView;
+            }
         }
         return new ModelAndView("/login");
     }
@@ -72,7 +73,7 @@ public class AdminController {
      * @param adminSignupRequest
      * @return
      */
-    private UserDto registerAdmin(AdminSignupRequest adminSignupRequest) {
+    private UserDto registerAdmin(@Valid AdminSignupFormCommand adminSignupRequest) {
         UserDto userDto = new UserDto()
                 .setEmail(adminSignupRequest.getEmail())
                 .setPassword(adminSignupRequest.getPassword())

@@ -54,27 +54,27 @@
         <div class="col-lg-4 col-xlg-3 col-md-7">
             <div class="card">
                 <div class="card-block">
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/profile}">
+                    <form action="#" method="POST" class="form-horizontal form-material" th:action="@{/profile}" th:object="${profileForm}">
                         <div class="form-group">
                             <label for="firstName" class="col-md-12">First Name</label>
                             <div class="col-md-12">
-                                <input type="text" th:value="${{currentUser.firstName}}"
-                                       class="form-control form-control-line" name="firstName" id="firstName">
+                                <input type="text" th:field="*{firstName}" class="form-control form-control-line" name="firstName" id="firstName">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
                         </div>
                         <div class="form-group">
                             <label for="lastName" class="col-md-12">Last Name</label>
                             <div class="col-md-12">
-                                <input type="text" th:value="${{currentUser.lastName}}"
-                                       class="form-control form-control-line" name="lastName" id="lastName">
+                                <input type="text" th:field="*{lastName}" class="form-control form-control-line" name="lastName" id="lastName">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
                         </div>
                         <div class="form-group">
                             <label for="mobileNumber" class="col-md-12">Phone No</label>
                             <div class="col-md-12">
-                                <input type="text" th:value="${{currentUser.mobileNumber}}"
-                                       class="form-control form-control-line" name="mobileNumber" id="mobileNumber">
+                                <input type="text" th:field="*{mobileNumber}" class="form-control form-control-line" name="mobileNumber" id="mobileNumber">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}"></small>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
@@ -90,19 +90,21 @@
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-block">
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/password}">
+                    <form action="#" method="POST" class="form-horizontal form-material" th:action="@{/password}" th:object="${passwordForm}">
                         <div class="form-group">
                             <label class="col-md-12">Email</label>
                             <div class="col-md-12">
-                                <label th:text="${{currentUser.email}}" class="form-control form-control-line"/>
+                                <input type="text" th:field="*{email}"
+                                       class="form-control form-control-line" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="password" class="col-md-12">Password</label>
                             <div class="col-md-12">
-                                <input type="password" th:value="${{currentUser.password}}"
+                                <input type="password" th:field="*{password}"
                                        class="form-control form-control-line" name="password" id="password">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">

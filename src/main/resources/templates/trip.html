@@ -49,9 +49,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="trip : ${trips}">
+                            <th:block th:each="trip,iterationStatus : ${trips}">
                                 <tr>
-                                    <td>1</td>
+                                    <td th:text=${iterationStatus.count}></td>
                                     <td th:text=${trip.busCode}></td>
                                     <td th:text=${trip.sourceStopName}></td>
                                     <td th:text=${trip.destinationStopName}></td>
@@ -70,52 +70,59 @@
                 <div class="card-block">
                     <h3 class="card-title">Add New Trip</h3>
                     <h6 class="card-subtitle">Enter details</h6>
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/trip}">
+                    <form action="#" method="POST" class="form-horizontal form-material" th:action="@{/trip}" th:object="${tripFormData}">
                         <div class="form-group">
                             <label for="busCode" class="col-md-12">Bus Code</label>
                             <div class="col-md-12">
-                                <select class="form-control" id="busCode" name="busCode">
+                                <select class="form-control" th:field="*{busCode}" id="busCode" name="busCode">
                                     <option th:each="bus : ${agency.buses}"
                                             th:value="${bus.code}"
-                                            th:text="${bus.code}">
+                                            th:text="${bus.code}"
+                                            th:selected="${bus.code == tripFormData.busCode}">
                                     </option>
                                 </select>
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('busCode')}" th:errors="*{busCode}"></small>
                         </div>
                         <div class="form-group">
-                            <label for="sourceStop" class="col-md-12">Source Stop</label>
+                            <label for="sourceStop" th:field="*{sourceStop}" class="col-md-12">Source Stop</label>
                             <div class="col-md-12">
                                 <select class="form-control" id="sourceStop" name="sourceStop">
                                     <option th:each="stop : ${stops}"
                                             th:value="${stop.code}"
-                                            th:text="${stop.name}">
+                                            th:text="${stop.name}"
+                                            th:selected="${stop.code == tripFormData.sourceStop}">
                                     </option>
                                 </select>
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('sourceStop')}" th:errors="*{sourceStop}"></small>
                         </div>
                         <div class="form-group">
-                            <label for="destinationStop" class="col-md-12">Destination Stop</label>
+                            <label for="destinationStop" th:field="*{destinationStop}" class="col-md-12">Destination Stop</label>
                             <div class="col-md-12">
                                 <select class="form-control" id="destinationStop" name="destinationStop">
                                     <option th:each="stop : ${stops}"
                                             th:value="${stop.code}"
-                                            th:text="${stop.name}">
+                                            th:text="${stop.name}"
+                                            th:selected="${stop.code == tripFormData.destinationStop}">
                                     </option>
                                 </select>
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('destinationStop')}" th:errors="*{destinationStop}"></small>
                         </div>
                         <div class="form-group">
                             <label for="tripDuration" class="col-md-12">Trip Duration(min)</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control form-control-line" name="tripDuration"
-                                       id="tripDuration">
+                                <input type="text" th:field="*{tripDuration}" class="form-control form-control-line" name="tripDuration" id="tripDuration">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('tripDuration')}" th:errors="*{tripDuration}"></small>
                         </div>
                         <div class="form-group">
                             <label for="tripFare" class="col-md-12">Fare</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control form-control-line" name="tripFare" id="tripFare">
+                                <input type="text" th:field="*{tripFare}" class="form-control form-control-line" name="tripFare" id="tripFare">
                             </div>
+                            <small class="text-danger-padded" th:if="${#fields.hasErrors('tripFare')}" th:errors="*{tripFare}"></small>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
