@@ -22,7 +22,7 @@
         <img src="https://img.shields.io/badge/Material%20Design-UI-orange.svg">  
     </a>      
     <a alt="Docker">
-        <img src="https://img.shields.io/badge/Docker-18.09-yellowgreen.svg" />
+        <img src="https://img.shields.io/badge/Docker-v18-yellowgreen.svg" />
     </a>
     <a alt="Dependencies">
         <img src="https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg" />
@@ -211,7 +211,9 @@ The decorator pattern used by the Thymeleaf Layout dialect solves these issues. 
 
 The layout for admin portal is arranged as follows :
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/ui-layout.png" alt="project structure"></a>
+<p align="center">
+<img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/ui-layout.png">
+</p>
 
 The individual areas in this layout serve the following purpose :
 
@@ -267,31 +269,45 @@ Here are the various screens of the Admin portal that you should be able to use 
 
 **Login**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png" alt="login"></a>
+<p align="center">
+<img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png">
+</p>
 
 **Signup**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png" alt="signup"></a>
+<p align="center">
+<img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png">
+</p>
 
 **Dashboard**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png" alt="dashboard"></a>
+<p align="center">
+  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png">
+</p>
 
 **Agency**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png" alt="agency"></a>
+<p align="center">
+  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png">
+</p>
 
 **Buses**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png" alt="buses"></a>
+<p align="center">
+  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png">
+</p>
 
 **Trips**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png" alt="trips"></a>
+<p align="center">
+  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png">
+</p>
 
 **Profile**
 
-<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png" alt="update profile"></a>
+<p align="center">
+  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png">
+</p>
 
 ## Contributors ##
 [Arpit Khandelwal](https://www.linkedin.com/in/arpitkhandelwal1984/)
