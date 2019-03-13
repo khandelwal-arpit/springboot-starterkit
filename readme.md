@@ -10,7 +10,7 @@
 
 <p align="center">
     <a alt="Java">
-        <img src="https://img.shields.io/badge/Java-1.8-orange.svg" />
+        <img src="https://img.shields.io/badge/Java-v1.8-orange.svg" />
     </a>
     <a alt="Spring Boot">
         <img src="https://img.shields.io/badge/Spring%20Boot-v2.1.3-brightgreen.svg" />
@@ -120,14 +120,19 @@ Spring Boot is an opinionated framework that makes our life very easy since we d
 
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/project-structure.png" alt="project structure"></a>
 
+**_Models & DTOs_**
 The various models of the application are organized under the **_model_** package, their DTOs(data transfer objects) are present under the **_dto_** package. There are different opinions about whether we should use DTOs or not, I belong to the set of minds who think we definitely should and not using DTOs makes your model layer very tightly coupled with the UI layer and that is something that no enterprise project should ever get into. DTOs let us transfer only the data that we need to share with the user interface and not the entire model object that we may have aggregated using several sub-objects and persisted in the database. The mapping of models to the DTOs can be handled using ModelMapper utility, however its only useful when your DTO is almost similar (literally) to the concerned models which is not always the case and hence I prefer using custom mapper classes. You can find some examples under the dto/mapper package.
 
+**_DAOs_**
 The data access objects (DAOs) are present in the **_repository_** package. They are all extensions of the MongoRepository Interface helping the service layer to persist and retrieve the data from MongoDB. The service layer is defined under the **_service_** package, considering the current case study it made sense to create two basic services - UserService and BusReservationService to satisfy the different business operations that the users are executing using the UI.
 
+**_Security_**
 The security setting are present under the **_config_** package and the actual configurations are done under the class present in the **_security_** package. The application has different security concepts for the admin portal and the REST APIs, for the portal I have applied the default spring session mechanism that is based on the concept of sessionID and cookies. For the REST APIs I have used JWT token based authentication mechanism.
 
+**_Controllers_**
 Last, but the most important part is the controller layer. It binds everything together right from the moment a request is intercepted till the response is prepared and sent back. The controller layer is present in the **_controller_** package, the best practices suggest that we keep this layer versioned to support multiple versions of the application and the same practice is applied here. For now code is only present under v1 but over the time I expect to have different versions having different features. The Admin portal related controllers are present in the **_ui_** package and its concerning form command objects are located under the **_command_** package. The REST API controllers are located under the **_api_** package and the corresponding request classes are located under the **_request_** package. 
 
+**_Request and Form Commands_**
 Again, there are different opinions amongst the fraternity regarding the usage of separate classes for mapping the incoming request vs using the DTOs, I am personally a fan of segregating the two as far as possible to promote loose coupling amongst UI and controller layer. The request objects and the form commands do give us a way to apply an additional level of validations on the incoming requests before they get converted to the DTOs which transfer valid information to the service layer for persistence and data retrieval. We could use DTOs here and some developers prefer that approach as it reduces some additional classes, however I usually prefer to keep the validation logic separate from the transfer objects and hence am inclined to use the request/command objects ahead of them.
 
 The static resources are grouped under the **_resources_** directory. All the UI objects and their styling aspects can be located here.
@@ -261,24 +266,31 @@ You can follow any/all of the above commands, or simply use the run configuratio
 Here are the various screens of the Admin portal that you should be able to use once the application is setup properly :
 
 **Login**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png" alt="login"></a>
 
 **Signup**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png" alt="signup"></a>
 
 **Dashboard**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png" alt="dashboard"></a>
 
 **Agency**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png" alt="agency"></a>
 
 **Buses**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png" alt="buses"></a>
 
 **Trips**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png" alt="trips"></a>
 
 **Profile**
+
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png" alt="update profile"></a>
 
 ## Contributors ##
