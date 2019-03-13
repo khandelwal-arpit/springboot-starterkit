@@ -227,12 +227,59 @@ These components can be located in the resources/templates directory at the root
 Also, an error page for any unhandled exception is designed with the name "error.html". The login and signup pages are designed separately from the portal accessible to a logged-in user.
 
 ## Running the server locally ##
+To be able to run this Spring Boot app you will need to first build it. To build and package a Spring Boot app into a single executable Jar file with a Maven, use the below command. You will need to run it from the project folder which contains the pom.xml file.
+
+```
+maven package
+```
+or you can also use
+
+```
+mvn install
+```
+
+To run the Spring Boot app from a command line in a Terminal window you can you the java -jar command. This is provided your Spring Boot app was packaged as an executable jar file.
+
+```
+java -jar target/springboot-starterkit 0.0.1-SNAPSHOT.jar
+```
+
+You can also use Maven plugin to run the app. Use the below example to run your Spring Boot app with Maven plugin :
+
+```
+mvn spring-boot:run
+```
+
+You can follow any/all of the above commands, or simply use the run configuration provided by your favorite IDE and run/debug the app from there for development purposes.
+
 
 ## Running the server in Docker Container ##
 
 ## Testing ##
 
 ## User Interface ##
+Here are the various screens of the Admin portal that you should be able to use once the application is setup properly :
+
+**Login**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png" alt="login"></a>
+
+**Signup**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png" alt="signup"></a>
+
+**Dashboard**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png" alt="dashboard"></a>
+
+**Agency**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png" alt="agency"></a>
+
+**Buses**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png" alt="buses"></a>
+
+**Trips**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png" alt="trips"></a>
+
+**Profile**
+<img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png" alt="update profile"></a>
 
 ## Contributors ##
 [Arpit Khandelwal](https://www.linkedin.com/in/arpitkhandelwal1984/)
