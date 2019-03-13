@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -14,13 +13,13 @@ import javax.validation.constraints.Size;
 @Accessors(chain = true)
 public class ProfileFormCommand {
     @NotBlank
-    @Size(min=1, max=40)
+    @Size(min = 1, max = 40)
     private String firstName;
 
     @NotBlank
     private String lastName;
 
     @NotBlank
-    @Size(min=5, max=13)
+    @Size(min = 5, max = 13)
     private String mobileNumber;
 }

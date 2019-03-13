@@ -248,7 +248,7 @@ mvn install
 To run the Spring Boot app from a command line in a Terminal window you can you the java -jar command. This is provided your Spring Boot app was packaged as an executable jar file.
 
 ```
-java -jar target/springboot-starterkit 0.0.1-SNAPSHOT.jar
+java -jar target/springboot-starterkit-0.0.1-SNAPSHOT.jar
 ```
 
 You can also use Maven plugin to run the app. Use the below example to run your Spring Boot app with Maven plugin :
@@ -261,6 +261,14 @@ You can follow any/all of the above commands, or simply use the run configuratio
 
 
 ## Running the server in Docker Container ##
+
+```
+docker build -t spring/starterkit .
+```
+
+```
+docker run -p 8080:8080 spring/starterkit
+```
 
 ## Testing ##
 

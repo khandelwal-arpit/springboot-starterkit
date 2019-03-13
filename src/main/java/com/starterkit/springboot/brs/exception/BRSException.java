@@ -73,13 +73,13 @@ public class BRSException {
     }
 
     public static class EntityNotFoundException extends RuntimeException {
-        public EntityNotFoundException(String message){
+        public EntityNotFoundException(String message) {
             super(message);
         }
     }
 
     public static class DuplicateEntityException extends RuntimeException {
-        public DuplicateEntityException(String message){
+        public DuplicateEntityException(String message) {
             super(message);
         }
     }
@@ -92,9 +92,9 @@ public class BRSException {
      * @return
      */
     private static RuntimeException throwException(ExceptionType exceptionType, String messageTemplate, String... args) {
-        if(ExceptionType.ENTITY_NOT_FOUND.equals(exceptionType)){
+        if (ExceptionType.ENTITY_NOT_FOUND.equals(exceptionType)) {
             return new EntityNotFoundException(format(messageTemplate, args));
-        }else if(ExceptionType.DUPLICATE_ENTITY.equals(exceptionType)){
+        } else if (ExceptionType.DUPLICATE_ENTITY.equals(exceptionType)) {
             return new DuplicateEntityException(format(messageTemplate, args));
         }
         return new RuntimeException(format(messageTemplate, args));

@@ -5,7 +5,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -15,7 +14,7 @@ import javax.validation.constraints.Size;
 @Accessors(chain = true)
 public class BusFormCommand {
     @NotBlank
-    @Size(min=4, max=8)
+    @Size(min = 4, max = 8)
     private String code;
 
     @Min(value = 10, message = "Cannot enroll a bus with capacity smaller than 10")

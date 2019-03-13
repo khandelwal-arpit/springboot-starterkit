@@ -1,7 +1,6 @@
 package com.starterkit.springboot.brs.exception;
 
 import com.starterkit.springboot.brs.dto.response.Response;
-import com.starterkit.springboot.brs.exception.BRSException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

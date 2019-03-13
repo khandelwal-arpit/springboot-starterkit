@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -29,14 +28,14 @@ public class AdminSignupFormCommand {
     private String lastName;
 
     @NotBlank
-    @Size(min=5, max=100)
+    @Size(min = 5, max = 100)
     private String agencyName;
 
     @NotBlank
-    @Size(max=100)
+    @Size(max = 100)
     private String agencyDetails;
 
     @NotBlank
-    @Size(min=5, max=13)
+    @Size(min = 5, max = 13)
     private String mobileNumber;
 }

@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -30,33 +32,33 @@ public class AdminController {
 
     @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {
-        return new ModelAndView("/login");
+        return new ModelAndView("login");
     }
 
     @GetMapping(value = {"/logout"})
     public String logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
-        return "redirect:/login";
+        return "redirect:login";
     }
 
     @GetMapping(value = "/home")
     public String home() {
-        return "redirect:/dashboard";
+        return "redirect:dashboard";
     }
 
     @GetMapping(value = "/signup")
     public ModelAndView signup() {
-        ModelAndView modelAndView = new ModelAndView("/signup");
+        ModelAndView modelAndView = new ModelAndView("signup");
         modelAndView.addObject("adminSignupFormData", new AdminSignupFormCommand());
         return modelAndView;
     }
 
     @PostMapping(value = "/signup")
-    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData")AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("/signup");
-        if(bindingResult.hasErrors()){
+    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData") AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("signup");
+        if (bindingResult.hasErrors()) {
             return modelAndView;
-        }else {
+        } else {
             try {
                 UserDto newUser = registerAdmin(adminSignupFormCommand);
             } catch (Exception exception) {
@@ -64,7 +66,7 @@ public class AdminController {
                 return modelAndView;
             }
         }
-        return new ModelAndView("/login");
+        return new ModelAndView("login");
     }
 
     /**

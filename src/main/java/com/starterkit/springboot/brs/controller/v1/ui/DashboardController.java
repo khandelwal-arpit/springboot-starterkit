@@ -36,7 +36,7 @@ public class DashboardController {
 
     @GetMapping(value = "/dashboard")
     public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView("/dashboard");
+        ModelAndView modelAndView = new ModelAndView("dashboard");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("currentUser", userDto);
@@ -46,7 +46,7 @@ public class DashboardController {
 
     @GetMapping(value = "/agency")
     public ModelAndView agencyDetails() {
-        ModelAndView modelAndView = new ModelAndView("/agency");
+        ModelAndView modelAndView = new ModelAndView("agency");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -61,7 +61,7 @@ public class DashboardController {
 
     @PostMapping(value = "/agency")
     public ModelAndView updateAgency(@Valid @ModelAttribute("agencyFormData") AgencyFormCommand agencyFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("/agency");
+        ModelAndView modelAndView = new ModelAndView("agency");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -79,7 +79,7 @@ public class DashboardController {
 
     @GetMapping(value = "/bus")
     public ModelAndView busDetails() {
-        ModelAndView modelAndView = new ModelAndView("/bus");
+        ModelAndView modelAndView = new ModelAndView("bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -91,7 +91,7 @@ public class DashboardController {
 
     @PostMapping(value = "/bus")
     public ModelAndView addNewBus(@Valid @ModelAttribute("busFormData") BusFormCommand busFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("/bus");
+        ModelAndView modelAndView = new ModelAndView("bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -115,7 +115,7 @@ public class DashboardController {
 
     @GetMapping(value = "/trip")
     public ModelAndView tripDetails() {
-        ModelAndView modelAndView = new ModelAndView("/trip");
+        ModelAndView modelAndView = new ModelAndView("trip");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -131,7 +131,7 @@ public class DashboardController {
 
     @PostMapping(value = "/trip")
     public ModelAndView addNewTrip(@Valid @ModelAttribute("tripFormData") TripFormCommand tripFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("/trip");
+        ModelAndView modelAndView = new ModelAndView("trip");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
@@ -143,7 +143,7 @@ public class DashboardController {
         modelAndView.addObject("userName", userDto.getFullName());
         modelAndView.addObject("trips", trips);
 
-        if(!bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             try {
                 TripDto tripDto = new TripDto()
                         .setSourceStopCode(tripFormCommand.getSourceStop())
@@ -157,7 +157,7 @@ public class DashboardController {
                 trips = busReservationService.getAgencyTrips(agencyDto.getCode());
                 modelAndView.addObject("trips", trips);
                 modelAndView.addObject("tripFormData", new TripFormCommand());
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 bindingResult.rejectValue("sourceStop", "error.tripFormData", ex.getMessage());
             }
         }
@@ -166,7 +166,7 @@ public class DashboardController {
 
     @GetMapping(value = "/profile")
     public ModelAndView getUserProfile() {
-        ModelAndView modelAndView = new ModelAndView("/profile");
+        ModelAndView modelAndView = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         ProfileFormCommand profileFormCommand = new ProfileFormCommand()
@@ -184,7 +184,7 @@ public class DashboardController {
 
     @PostMapping(value = "/profile")
     public ModelAndView updateProfile(@Valid @ModelAttribute("profileForm") ProfileFormCommand profileFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("/profile");
+        ModelAndView modelAndView = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
@@ -207,7 +207,7 @@ public class DashboardController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("/profile");
+            ModelAndView modelAndView = new ModelAndView("profile");
             ProfileFormCommand profileFormCommand = new ProfileFormCommand()
                     .setFirstName(userDto.getFirstName())
                     .setLastName(userDto.getLastName())
@@ -217,7 +217,7 @@ public class DashboardController {
             return modelAndView;
         } else {
             userService.changePassword(userDto, passwordFormCommand.getPassword());
-            return new ModelAndView("/login");
+            return new ModelAndView("login");
         }
     }
 
