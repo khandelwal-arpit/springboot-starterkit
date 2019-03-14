@@ -90,7 +90,7 @@ The _End user_ can use their mobile application (yet to be built, however the RE
 5. Filter search results with a date option
 6. Book a ticket for a given trip schedule
 
-Admin interface and REST APIs both have their independent authentication mechanisms, the web application uses the cookie based authentication (provided by default by Spring security) and the RESTAPI uses the JWT authentication for access. This application assumes the availability of 'MongoDB' installation on the localhost where the server will run or the use of docker-compose to boot up a mongodb container and link the application with it within the realm of docker.
+Admin interface and REST APIs both have their independent authentication mechanisms, the web application uses the cookie based authentication (provided by default by Spring security) and the REST API uses the JWT authentication for access. This application assumes the availability of 'MongoDB' installation on the localhost where the server will run or the use of docker-compose to boot up a mongodb container and link the application with it within the realm of docker.
 
 Any changes that the admin users will do on the web portal will impact the search results of the end users, there will be certain use cases which you may find missing here, I hope you will appreciate that the overall idea was to present a way to create such an application completely inside the realm of Spring Boot and not to actually building a fully functional reservation system.
 
@@ -153,7 +153,7 @@ I have tried to experiment a bit with the RuntimeExceptions and come up with a m
 
 The BRSException class has two static classes _EntityNotFoundException_ and _DuplicateEntityException_ which are the two most widely thrown exceptions from the service layer. It also contains a set of overloaded methods _throwException_ which take the EntityType, ExceptionType and arguments to come up with a formatted message whose template is present under the **_custom.properties_** file. Using this class I was able to empower the entire services layer to throw entity exceptions in a uniform manner without cluttering the code base with all sorts of NOT_FOUND and DUPLICATE entity exceptions.
 
-For example, while login if you try to use a email address which is not regisered, an exception is raised and thrown using the following single line of code -
+For example, while login if you try to use a email address which is not registered, an exception is raised and thrown using the following single line of code -
 
 ``` java
 throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
@@ -234,7 +234,7 @@ The individual areas in this layout serve the following purpose :
 - **Sidebar**: a sidebar for additional information
 - **Footer**: the footer area that provides the copyright info
 
-These components can be located in the resources/templates directory at the root as well as under the sub-directories fragements and layout. The content area in this layout will host the following pages :
+These components can be located in the resources/templates directory at the root as well as under the sub-directories fragments and layout. The content area in this layout will host the following pages :
 
 - Dashboard
 - Agency
@@ -268,7 +268,7 @@ You can also use Maven plugin to run the app. Use the below example to run your 
 mvn spring-boot:run
 ```
 
-You can follow any/all of the above commands, or simply use the run configuration provided by your favorite IDE and run/debug the app from there for development purposes. Once the server is setup you should be able to access the admin interface at the following URL :
+You can follow any/all of the above commands, or simply use the run configuration provided by your favourite IDE and run/debug the app from there for development purposes. Once the server is setup you should be able to access the admin interface at the following URL :
 
 http://localhost:8080
 
@@ -286,6 +286,7 @@ Some of the important api endpoints are as follows :
 - http://localhost:8080/api/v1/reservation/bookticket (HTTP:POST)
 
 ## Running the server in Docker Container ##
+##### Docker #####
 Command to build the container :
 
 ```
@@ -300,6 +301,16 @@ docker run -p 8080:8080 spring/starterkit
 
 Please **note** when you build the container image and if mongodb is running locally on your system, you will need to provide your system's IP address (or cloud hosted database's IP) in the application.properties file to be able to connect to the database from within the container.
 
+##### Docker Compose #####
+Another alternative to run the application is to use the docker-compose.yml file and utility. To build the application using docker-compose simply execute the following command :
+```
+docker-compose build
+```
+
+And to run the application, please execute the following command :
+```
+docker-compose up
+```
 
 ## User Interface ##
 Here are the various screens of the Admin portal that you should be able to use once the application is setup properly :

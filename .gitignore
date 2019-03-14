@@ -25,5 +25,8 @@ HELP.md
 /.nb-gradle/
 /build/
 
+### Database ###
+db/data/*
+
 #mac-os
 *.DS_Store
