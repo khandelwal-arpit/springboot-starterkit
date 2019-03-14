@@ -44,10 +44,9 @@
 6. [Application Structure](#Application-Structure)
 7. [Run Locally](#Running-the-server-locally)
 8. [Run Insider Docker](#Running-the-server-in-Docker-Container)
-9. [Testing](#Testing)
-10. [User Interface](#User-Interface)
-11. [Contributor](#Contributor)
-12. [License](#License)
+9. [User Interface](#User-Interface)
+10. [Contributor](#Contributor)
+11. [License](#License)
 
 ## Philosophy ##
 A lot of work has gone into Spring Boot to reduce complexity and dependencies, which largely alleviates our previous reservations. If you live in a Spring ecosystem and are moving to microservices, Spring Boot is now the obvious choice. Spring Boot allows easy set up of standalone Spring-based applications. It's ideal for pulling up new microservices and easy to deploy. It also makes data access less of a pain due to the hibernate mappings with much less boilerplate code. You can get started with minimum fuss due to it taking an opinionated view of the Spring platform and third-party libraries. Most Spring Boot applications need very little Spring configuration. 
@@ -101,6 +100,13 @@ The admin user interface is completely written in material design using Bootstra
 The current schema looks as follows:
 
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/db-schema.png" alt="spring boot"></a>
+
+- The authentication and authorization is governed by _User_ and _Role_ collection.
+- The _Agency_ collection keeps the details of agency along with who owns it.
+- The _Stop_ collection keeps the data about all the stops in the system.
+- The _Bus_ collection has the data of all the buses for various agencies along with their capacity and make years.
+- The _Trip_ and _TripSchedule_ collections keep the information about all the trips that agency owners create within the system. Information like source and destination stops, journey time, data of travel, tickets sold so far and the available seats is collected in them.
+- Last, the _Ticket_ collection keeps information about all the tickets issued in the application for various trips.
   
 ## Technology ##
 Following libraries were used during the development of this starter kit :
@@ -121,18 +127,23 @@ Spring Boot is an opinionated framework that makes our life very easy since we d
 <img src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/project-structure.png" alt="project structure"></a>
 
 **_Models & DTOs_**
+
 The various models of the application are organized under the **_model_** package, their DTOs(data transfer objects) are present under the **_dto_** package. There are different opinions about whether we should use DTOs or not, I belong to the set of minds who think we definitely should and not using DTOs makes your model layer very tightly coupled with the UI layer and that is something that no enterprise project should ever get into. DTOs let us transfer only the data that we need to share with the user interface and not the entire model object that we may have aggregated using several sub-objects and persisted in the database. The mapping of models to the DTOs can be handled using ModelMapper utility, however its only useful when your DTO is almost similar (literally) to the concerned models which is not always the case and hence I prefer using custom mapper classes. You can find some examples under the dto/mapper package.
 
 **_DAOs_**
+
 The data access objects (DAOs) are present in the **_repository_** package. They are all extensions of the MongoRepository Interface helping the service layer to persist and retrieve the data from MongoDB. The service layer is defined under the **_service_** package, considering the current case study it made sense to create two basic services - UserService and BusReservationService to satisfy the different business operations that the users are executing using the UI.
 
 **_Security_**
+
 The security setting are present under the **_config_** package and the actual configurations are done under the class present in the **_security_** package. The application has different security concepts for the admin portal and the REST APIs, for the portal I have applied the default spring session mechanism that is based on the concept of sessionID and cookies. For the REST APIs I have used JWT token based authentication mechanism.
 
 **_Controllers_**
+
 Last, but the most important part is the controller layer. It binds everything together right from the moment a request is intercepted till the response is prepared and sent back. The controller layer is present in the **_controller_** package, the best practices suggest that we keep this layer versioned to support multiple versions of the application and the same practice is applied here. For now code is only present under v1 but over the time I expect to have different versions having different features. The Admin portal related controllers are present in the **_ui_** package and its concerning form command objects are located under the **_command_** package. The REST API controllers are located under the **_api_** package and the corresponding request classes are located under the **_request_** package. 
 
 **_Request and Form Commands_**
+
 Again, there are different opinions amongst the fraternity regarding the usage of separate classes for mapping the incoming request vs using the DTOs, I am personally a fan of segregating the two as far as possible to promote loose coupling amongst UI and controller layer. The request objects and the form commands do give us a way to apply an additional level of validations on the incoming requests before they get converted to the DTOs which transfer valid information to the service layer for persistence and data retrieval. We could use DTOs here and some developers prefer that approach as it reduces some additional classes, however I usually prefer to keep the validation logic separate from the transfer objects and hence am inclined to use the request/command objects ahead of them.
 
 The static resources are grouped under the **_resources_** directory. All the UI objects and their styling aspects can be located here.
@@ -144,13 +155,13 @@ The BRSException class has two static classes _EntityNotFoundException_ and _Dup
 
 For example, while login if you try to use a email address which is not regisered, an exception is raised and thrown using the following single line of code -
 
-```
+``` java
 throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
 ```
 
 This results in clubbing the names of these two enums USER(user) and ENTITY_NOT_FOUND(not.found) and coming up with a key _user.not.found_ which is present in the custom.properties files as follows :
 
-```
+``` 
 user.not.found=Requested user with email - {0} does not exist.
 ```
 By simply replacing the {0} param with the email address included in the thrown exception you can get a well formatted message to be shown to the user or to be sent back as the response of the REST API call.
@@ -257,64 +268,76 @@ You can also use Maven plugin to run the app. Use the below example to run your 
 mvn spring-boot:run
 ```
 
-You can follow any/all of the above commands, or simply use the run configuration provided by your favorite IDE and run/debug the app from there for development purposes.
+You can follow any/all of the above commands, or simply use the run configuration provided by your favorite IDE and run/debug the app from there for development purposes. Once the server is setup you should be able to access the admin interface at the following URL :
 
+http://localhost:8080
+
+And the REST APIs can be accessed over the following base-path :
+
+http://localhost:8080/api/
+
+Some of the important api endpoints are as follows :
+
+- http://localhost:8080/api/v1/user/signup (HTTP:POST)
+- http://localhost:8080/api/auth (HTTP:POST)
+- http://localhost:8080/api/v1/reservation/stops (HTTP:GET)
+- http://localhost:8080/api/v1/reservation/tripsbystops (HTTP:GET)
+- http://localhost:8080/api/v1/reservation/tripschedules (HTTP:GET)
+- http://localhost:8080/api/v1/reservation/bookticket (HTTP:POST)
 
 ## Running the server in Docker Container ##
+Command to build the container :
 
 ```
 docker build -t spring/starterkit .
 ```
 
+Command to run the container :
+
 ```
 docker run -p 8080:8080 spring/starterkit
 ```
 
-## Testing ##
+Please **note** when you build the container image and if mongodb is running locally on your system, you will need to provide your system's IP address (or cloud hosted database's IP) in the application.properties file to be able to connect to the database from within the container.
+
 
 ## User Interface ##
 Here are the various screens of the Admin portal that you should be able to use once the application is setup properly :
 
-**Login**
 
 <p align="center">
-<img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png">
+    <b>Login</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png">
 </p>
 
-**Signup**
-
 <p align="center">
-<img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png">
+    <b>Signup</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png">
 </p>
 
-**Dashboard**
-
 <p align="center">
-  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png">
+    <b>Dashboard</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png">
 </p>
 
-**Agency**
-
 <p align="center">
-  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png">
+    <b>Agency</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png">
 </p>
 
-**Buses**
-
 <p align="center">
-  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png">
+    <b>Buses</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png">
 </p>
 
-**Trips**
-
 <p align="center">
-  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png">
+    <b>Trips</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png">
 </p>
 
-**Profile**
-
 <p align="center">
-  <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png">
+    <b>Profile</b>
+    <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png">
 </p>
 
 ## Contributors ##
