@@ -306,37 +306,37 @@ Here are the various screens of the Admin portal that you should be able to use 
 
 
 <p align="center">
-    <b>Login</b>
+    <b>Login</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/login.png">
 </p>
 
 <p align="center">
-    <b>Signup</b>
+    <b>Signup</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/signup.png">
 </p>
 
 <p align="center">
-    <b>Dashboard</b>
+    <b>Dashboard</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/dashboard.png">
 </p>
 
 <p align="center">
-    <b>Agency</b>
+    <b>Agency</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/agency.png">
 </p>
 
 <p align="center">
-    <b>Buses</b>
+    <b>Buses</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/buses.png">
 </p>
 
 <p align="center">
-    <b>Trips</b>
+    <b>Trips</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/trips.png">
 </p>
 
 <p align="center">
-    <b>Profile</b>
+    <b>Profile</b><br>
     <img width="800" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/app-screens/profile.png">
 </p>
 
