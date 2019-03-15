@@ -1,4 +1,4 @@
-package com.starterkit.springboot.brs.config;
+package com.starterkit.springboot.brs.security.form;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by Arpit Khandelwal.
  */
 @Component
-public class CustomizeAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)

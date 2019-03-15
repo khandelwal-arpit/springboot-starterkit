@@ -37,15 +37,33 @@ public class BrsConfiguration {
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
                 .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
         return modelMapper;
-
         //https://github.com/modelmapper/modelmapper/issues/212
     }
 
+    /**
+     * Group BRS contains operations related to reservations and agency mangement
+     */
     @Bean
-    public Docket api() {
+    public Docket swaggerBRSApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("BRS")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.starterkit.springboot.brs.controller.v1.api"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo())
+                .securitySchemes(Arrays.asList(apiKey()));
+    }
+
+    /**
+     * Group User contains operations related to user mangement such as login/logout
+     */
+    @Bean
+    public Docket swaggerUserApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("User")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.starterkit.springboot.brs.config"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
@@ -63,6 +81,6 @@ public class BrsConfiguration {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("authkey", "Authorization", "header");
+        return new ApiKey("apiKey", "Authorization", "header");
     }
 }

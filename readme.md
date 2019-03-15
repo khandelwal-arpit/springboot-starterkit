@@ -44,9 +44,10 @@
 6. [Application Structure](#Application-Structure)
 7. [Run Locally](#Running-the-server-locally)
 8. [Run Insider Docker](#Running-the-server-in-Docker-Container)
-9. [User Interface](#User-Interface)
-10. [Contributor](#Contributor)
-11. [License](#License)
+9. [API Documentation](#API-Documentation)
+10. [User Interface](#User-Interface)
+11. [Contributor](#Contributor)
+12. [License](#License)
 
 ## Philosophy ##
 A lot of work has gone into Spring Boot to reduce complexity and dependencies, which largely alleviates our previous reservations. If you live in a Spring ecosystem and are moving to microservices, Spring Boot is now the obvious choice. Spring Boot allows easy set up of standalone Spring-based applications. It's ideal for pulling up new microservices and easy to deploy. It also makes data access less of a pain due to the hibernate mappings with much less boilerplate code. You can get started with minimum fuss due to it taking an opinionated view of the Spring platform and third-party libraries. Most Spring Boot applications need very little Spring configuration. 
@@ -311,6 +312,50 @@ And to run the application, please execute the following command :
 ```
 docker-compose up
 ```
+
+## API Documentation ##
+Its as important to document(as is the development) and make your APIs available in a readable manner for frontend teams or external consumers. The tool for API documentation used in this starter kit is Swagger2, you can open the same inside a browser at the following url -
+
+http://localhost:8080/swagger-ui.html
+
+It will present you with a well structured UI which has two specs :
+
+1. User
+2. BRS
+
+You can use the User spec to execute the login api for generating the Bearer token. The token then should be applied in the "Authorize" popup which will by default apply it to all secured apis (get and post both).
+
+<p align="center">
+    <b>User Spec</b><br>
+    <br>
+    <img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/swagger-screens/swagger-1.png">
+</p>
+
+<p align="center">
+    <b>User Login</b><br>
+    <br>
+    <img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/swagger-screens/swagger-2.png">
+</p>
+
+<p align="center">
+    <b>Authorization</b><br>
+    <br>
+    <img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/swagger-screens/swagger-3.png">
+</p>
+
+<p align="center">
+    <b>BRS Spec</b><br>
+    <br>
+    <img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/swagger-screens/swagger-4.png">
+</p>
+
+<p align="center">
+    <b>BRS APIs</b><br>
+    <br>
+    <img width="600" src="https://github.com/khandelwal-arpit/springboot-starterkit/blob/master/docs/images/swagger-screens/swagger-5.png">
+</p>
+
+The configuration of Swagger is being taken care of by class BrsConfiguration. I have defined two specs there with the help of "swaggerBRSApi" and "swaggerUserApi" methods. Since the login part is by default taken care of by Spring Security we don't get to expose its apis implicitly as the rest of the apis defined in the system and for the same reason I have defined a controller in the config package with the name "FakeController". Its purpose is to facilitate the generation of swagger documentation for login and logout apis, it will never come into existence during the application life cycle as the "/api/auth" api is being handled by the security filters defined in the code base. 
 
 ## User Interface ##
 Here are the various screens of the Admin portal that you should be able to use once the application is setup properly :

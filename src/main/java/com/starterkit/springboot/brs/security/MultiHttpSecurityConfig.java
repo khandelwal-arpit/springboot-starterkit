@@ -1,12 +1,12 @@
 package com.starterkit.springboot.brs.security;
 
-import com.starterkit.springboot.brs.config.CustomizeAuthenticationSuccessHandler;
 import com.starterkit.springboot.brs.security.api.ApiJWTAuthenticationFilter;
 import com.starterkit.springboot.brs.security.api.ApiJWTAuthorizationFilter;
+import com.starterkit.springboot.brs.security.form.CustomAuthenticationSuccessHandler;
+import com.starterkit.springboot.brs.security.form.CustomLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,20 +40,27 @@ public class MultiHttpSecurityConfig {
                     .passwordEncoder(bCryptPasswordEncoder);
         }
 
+        // @formatter:off
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .csrf().disable()
+                    .csrf()
+                        .disable()
                     .antMatcher("/api/**")
                     .authorizeRequests()
-                    .antMatchers("/api/v1/user/signup").permitAll()
-                    .anyRequest().authenticated()
+                        .antMatchers("/api/v1/user/signup").permitAll()
+                    .anyRequest()
+                        .authenticated()
                     .and()
-                    .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                    .exceptionHandling()
+                        .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                     .and()
                     .addFilter(new ApiJWTAuthenticationFilter(authenticationManager()))
                     .addFilter(new ApiJWTAuthorizationFilter(authenticationManager()))
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
+        // @formatter:on
+
     }
 
     @Order(2)
@@ -63,7 +70,7 @@ public class MultiHttpSecurityConfig {
         private BCryptPasswordEncoder bCryptPasswordEncoder;
 
         @Autowired
-        private CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
+        private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
         @Autowired
         private CustomUserDetailsService userDetailsService;
@@ -75,46 +82,50 @@ public class MultiHttpSecurityConfig {
                     .passwordEncoder(bCryptPasswordEncoder);
         }
 
+        // @formatter:off
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .cors()
                     .and()
-                    .csrf().disable()
+                    .csrf()
+                        .disable()
                     .authorizeRequests()
-                    .antMatchers(HttpMethod.GET, "/v2/api-docs", "/configuration/ui",
-                            "/configuration/security", "/swagger-ui.html",
-                            "/webjars/**", "/swagger-resources/**",
-                            "/swagge‌​r-ui.html", "/actuator",
-                            "/actuator/**").permitAll()
-                    .antMatchers(HttpMethod.GET, "/", "/resources/static/**",
-                            "/css/**", "/js/**", "/img/**", "/fonts/**", "/images/**", "/scss/**",
-                            "/vendor/**", "/favicon.ico", "/auth/**", "/favicon.png").permitAll()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/signup").permitAll()
-                    .antMatchers("/dashboard/**").hasAuthority("ADMIN")
-                    .anyRequest().authenticated()
+                        .antMatchers("/").permitAll()
+                        .antMatchers("/login").permitAll()
+                        .antMatchers("/signup").permitAll()
+                        .antMatchers("/dashboard/**").hasAuthority("ADMIN")
+                    .anyRequest()
+                        .authenticated()
                     .and()
                     .formLogin()
-                    .loginPage("/login").permitAll()
-                    .failureUrl("/login?error=true")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .successHandler(customizeAuthenticationSuccessHandler)
+                        .loginPage("/login")
+                        .permitAll()
+                        .failureUrl("/login?error=true")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successHandler(customAuthenticationSuccessHandler)
                     .and()
-                    .logout().permitAll()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/")
+                    .logout()
+                        .permitAll()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
                     .and()
-                    .exceptionHandling();
+                        .exceptionHandling();
         }
 
         @Override
         public void configure(WebSecurity web) throws Exception {
-            web
-                    .ignoring()
-                    .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+            web.ignoring().antMatchers(
+                    "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**",
+                    "/resources/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**",
+                    "/images/**", "/scss/**", "/vendor/**", "/favicon.ico", "/auth/**", "/favicon.png",
+                    "/v2/api-docs", "/configuration/ui", "/configuration/security", "/swagger-ui.html",
+                    "/webjars/**", "/swagger-resources/**", "/swagge‌​r-ui.html", "/actuator",
+                    "/actuator/**");
         }
+        // @formatter:on
     }
 }

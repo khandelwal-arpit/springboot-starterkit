@@ -10,6 +10,9 @@ import com.starterkit.springboot.brs.dto.response.Response;
 import com.starterkit.springboot.brs.service.BusReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import com.starterkit.springboot.brs.util.DateUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +27,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/v1/reservation")
+@Api(value = "brs-application", description = "Operations pertaining to agency management and ticket issue in the BRS application")
 public class BusReservationController {
     @Autowired
     private BusReservationService busReservationService;
@@ -32,6 +36,7 @@ public class BusReservationController {
     private UserService userService;
 
     @GetMapping("/stops")
+    @ApiOperation(value = "", authorizations = {@Authorization(value = "apiKey")})
     public Response getAllStops() {
         return Response
                 .ok()
@@ -39,6 +44,7 @@ public class BusReservationController {
     }
 
     @GetMapping("/tripsbystops")
+    @ApiOperation(value = "", authorizations = {@Authorization(value = "apiKey")})
     public Response getTripsByStops(@RequestBody @Valid GetTripSchedulesRequest getTripSchedulesRequest) {
         List<TripDto> tripDtos = busReservationService.getAvailableTripsBetweenStops(
                 getTripSchedulesRequest.getSourceStop(),
@@ -51,6 +57,7 @@ public class BusReservationController {
     }
 
     @GetMapping("/tripschedules")
+    @ApiOperation(value = "", authorizations = {@Authorization(value = "apiKey")})
     public Response getTripSchedules(@RequestBody @Valid GetTripSchedulesRequest getTripSchedulesRequest) {
         List<TripScheduleDto> tripScheduleDtos = busReservationService.getAvailableTripSchedules(
                 getTripSchedulesRequest.getSourceStop(),
@@ -64,6 +71,7 @@ public class BusReservationController {
     }
 
     @PostMapping("/bookticket")
+    @ApiOperation(value = "", authorizations = {@Authorization(value = "apiKey")})
     public Response bookTicket(@RequestBody @Valid BookTicketRequest bookTicketRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = (String) auth.getPrincipal();
