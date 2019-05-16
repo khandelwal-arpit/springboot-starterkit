@@ -269,7 +269,15 @@ You can also use Maven plugin to run the app. Use the below example to run your 
 mvn spring-boot:run
 ```
 
-You can follow any/all of the above commands, or simply use the run configuration provided by your favourite IDE and run/debug the app from there for development purposes. Once the server is setup you should be able to access the admin interface at the following URL :
+If you do not have a mongo instance running and still just want to create the JAR, then please use the following command:
+
+```
+mvn install -DskipTests
+```
+
+This will skip the test cases and won't check the availability of a mongodb instance and allow you to create the JAR.
+
+You can follow any/all of the above commands, or simply use the run configuration provided by your favorite IDE and run/debug the app from there for development purposes. Once the server is setup you should be able to access the admin interface at the following URL :
 
 http://localhost:8080
 
