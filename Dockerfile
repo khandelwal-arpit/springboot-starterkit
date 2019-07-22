@@ -1,25 +1,26 @@
+# our base build image
+FROM maven:3.6.0-jdk-8 as maven
+
+# copy the project files
+COPY ./pom.xml ./pom.xml
+
+# build all dependencies
+RUN mvn dependency:go-offline -B
+
+# copy your other files
+COPY ./src ./src
+
+# build for release
+RUN mvn package -DskipTests
+
+# our final base image
 FROM openjdk:8-jre-alpine
-WORKDIR /usr/spring/starterkit
-COPY ./target/springboot-starterkit-0.0.1-SNAPSHOT.jar /usr/spring/starterkit
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "springboot-starterkit-0.0.1-SNAPSHOT.jar"]
 
+# set deployment directory
+WORKDIR /my-project
 
-# -----------------------------------------------------------------------------------------------
-# Multi stage dockerfile, uncomment following lines to enforce a maven build and then image build
-# FROM openjdk:8-jdk-alpine as build
-# WORKDIR /workspace/app
-# COPY mvnw .
-# COPY .mvn .mvn
-# COPY pom.xml .
-# COPY src src
-# RUN ./mvnw install -DskipTests
-# RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-#
-# FROM openjdk:8-jdk-alpine
-# VOLUME /tmp
-# ARG DEPENDENCY=/workspace/app/target/dependency
-# COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-# COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-# COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-# ENTRYPOINT ["java","-cp","app:app/lib/*","com.starterkit.springboot.brs.BusReservationSystemApplication"]
+# copy over the built artifact from the maven image
+COPY --from=maven target/springboot-starterkit-0.0.1-SNAPSHOT.jar ./
+
+# set the startup command to run your binary
+CMD ["java", "-jar", "./springboot-starterkit-0.0.1-SNAPSHOT.jar"]
