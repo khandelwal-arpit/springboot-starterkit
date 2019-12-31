@@ -11,7 +11,7 @@ services:
       - ./db/data:/data/db
     ports:
       - 27017:27017
-    command: mongod --bind_ip_all --smallfiles --logpath=/dev/null # --quiet
+    command: mongod --bind_ip_all --logpath=/dev/null # --quiet
 
   web:
     build: .
