@@ -72,18 +72,6 @@ public class BRSException {
         return throwException(exceptionType, messageTemplate, args);
     }
 
-    public static class EntityNotFoundException extends RuntimeException {
-        public EntityNotFoundException(String message) {
-            super(message);
-        }
-    }
-
-    public static class DuplicateEntityException extends RuntimeException {
-        public DuplicateEntityException(String message) {
-            super(message);
-        }
-    }
-
     /**
      * Returns new RuntimeException based on template and args
      *
@@ -107,9 +95,21 @@ public class BRSException {
     private static String format(String template, String... args) {
         Optional<String> templateContent = Optional.ofNullable(propertiesConfig.getConfigValue(template));
         if (templateContent.isPresent()) {
-            return MessageFormat.format(templateContent.get(), args);
+            return MessageFormat.format(templateContent.get(), (Object[]) args);
         }
-        return String.format(template, args);
+        return String.format(template, (Object[]) args);
+    }
+
+    public static class EntityNotFoundException extends RuntimeException {
+        public EntityNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    public static class DuplicateEntityException extends RuntimeException {
+        public DuplicateEntityException(String message) {
+            super(message);
+        }
     }
 
 }

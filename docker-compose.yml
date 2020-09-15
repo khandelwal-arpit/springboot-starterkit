@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.5'
 services:
   mongodb:
     image: mongo:latest
@@ -18,7 +18,7 @@ services:
     links:
       - mongodb
     container_name: BRS-Service
-    restart: always
+    restart: on-failure
     ports:
       - "8080:8080"
     environment:
@@ -26,5 +26,6 @@ services:
       - MONGODB_SCHEMA=brs
       - MONGODB_HOST=mongodb
       - LOG_LEVEL=DEBUG
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - mongodb

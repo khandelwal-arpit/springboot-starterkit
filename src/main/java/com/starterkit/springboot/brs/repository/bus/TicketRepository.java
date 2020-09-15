@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * Created by Arpit Khandelwal.
  */
-public interface TicketRepository extends MongoRepository<Ticket, Long> {
+public interface TicketRepository extends MongoRepository<Ticket, String> {
 }

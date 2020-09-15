@@ -21,7 +21,9 @@ import lombok.experimental.Accessors;
 public class StopDto implements Comparable {
 
     private String code;
+
     private String name;
+
     private String detail;
 
     @Override

@@ -21,7 +21,6 @@ import java.util.Arrays;
  * Created by Arpit Khandelwal.
  */
 @Configuration
-@EnableSwagger2
 public class BrsConfiguration {
 
     @Bean
@@ -76,7 +75,7 @@ public class BrsConfiguration {
                 .contact(new Contact("Arpit Khandelwal", "https://medium.com/the-resonant-web", "khandelwal.arpit@outlook.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-                .version("0.0.1")
+                .version("1.0")
                 .build();
     }
 

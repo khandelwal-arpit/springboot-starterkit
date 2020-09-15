@@ -25,10 +25,9 @@ import javax.validation.Valid;
 public class AdminController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     BusReservationService busReservationService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {

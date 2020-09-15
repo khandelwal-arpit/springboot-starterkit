@@ -27,7 +27,7 @@ import static com.starterkit.springboot.brs.security.SecurityConstants.*;
  * Created by Arpit Khandelwal.
  */
 public class ApiJWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public ApiJWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
